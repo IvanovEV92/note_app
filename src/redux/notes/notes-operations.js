@@ -80,22 +80,24 @@ const updateNotes = (changeNotesId, noteTopic) => async dispatch => {
 	}
 };
 
-// const removeProduct = contactId => async dispatch => {
-// 	dispatch(actions.removeProductRequest());
-// 	try {
-// 		axios.delete(`/${contactId}`);
-// 		dispatch(actions.removeProductSuccess(contactId));
-// 	} catch (error) {
-// 		dispatch(actions.removeProductError(error));
-// 	}
-// };
+const deleteNote = id => async dispatch => {
+	const { deleteRecord } = useIndexedDB('notes');
+
+	dispatch(notesActions.deleteNotesRequest());
+	try {
+		deleteRecord(id).then(event => console.log(event));
+		dispatch(notesActions.deleteNotesSuccess(id));
+	} catch (error) {
+		dispatch(notesActions.deleteNotesError(error));
+	}
+};
 
 const productOperations = {
 	fetchNotes,
 	addNotes,
 	fetchNotesById,
 	updateNotes,
-	// removeProduct,
+	deleteNote,
 };
 
 export default productOperations;

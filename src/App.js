@@ -8,9 +8,10 @@ function App() {
 
 	const [noteTopic, setNoteTopic] = useState('');
 
-	const persons = useSelector(notesSelectors.getNotes);
+	const notes = useSelector(notesSelectors.getVisibleNotes);
 	const changeNotesId = useSelector(notesSelectors.getChangeNoteId);
 	const showEditForm = useSelector(notesSelectors.showEditForm);
+	const valueFilter = useSelector(notesSelectors.getFilter);
 
 	const addNote = useCallback(() => {
 		dispatch(notesOperations.addNotes());
@@ -35,21 +36,45 @@ function App() {
 		[dispatch],
 	);
 
+	const closeForm = useCallback(() => {
+		dispatch(notesActions.closeEditForm());
+	}, [dispatch]);
+
 	const handleTopicChange = useCallback(
 		e => {
 			const { value } = e.currentTarget;
 			setNoteTopic(value);
 			dispatch(notesOperations.updateNotes(changeNotesId, value));
 		},
-		[dispatch, noteTopic],
+		[dispatch, changeNotesId],
+	);
+
+	const deleteNote = useCallback(
+		id => {
+			dispatch(notesOperations.deleteNote(id));
+		},
+		[dispatch],
+	);
+
+	const onChangeFilter = useCallback(
+		e => {
+			dispatch(notesActions.changeFilter(e.currentTarget.value));
+		},
+		[dispatch],
 	);
 
 	return (
 		<div id="app">
 			<h1>IndexedDB notes</h1>
 			<button onClick={addNote}>Add</button>
+			<input
+				type="text"
+				value={valueFilter}
+				placeholder="Поиск"
+				onChange={onChangeFilter}
+			/>
 			<ul>
-				{persons?.map(({ topic, date, id }) => {
+				{notes?.map(({ topic, date, id }) => {
 					return (
 						<li key={id} onClick={() => fetchNote(id)}>
 							<p>{topic}</p>
@@ -63,12 +88,14 @@ function App() {
 											value={noteTopic}
 											placeholder="Description"
 											onChange={handleTopicChange}
+											onBlur={() => closeForm()}
+											autoFocus
 										/>
 									) : (
 										<p>{topic}</p>
 									)}
 									<button onClick={() => editNote(topic)}>Edit</button>
-									<button onClick={() => null}>Delete</button>
+									<button onClick={() => deleteNote(id)}>Delete</button>
 								</>
 							)}
 						</li>

@@ -12,9 +12,14 @@ const fetchNotesByIdError = createAction('products/fetchNotesByIdError');
 const updateNotesRequest = createAction('products/updateNotesRequest');
 const updateNotesSuccess = createAction('products/updateNotesSuccess');
 const updateNotesError = createAction('products/updateNotesError');
+const deleteNotesRequest = createAction('products/deleteNotesRequest');
+const deleteNotesSuccess = createAction('products/deleteNotesSuccess');
+const deleteNotesError = createAction('products/deleteNotesError');
 
 const showEditForm = createAction('products/showEditForm');
 const closeEditForm = createAction('products/closeEditForm');
+
+const changeFilter = createAction('products/changeFilter');
 
 const notesActions = {
 	fetchNotesRequest,
@@ -31,5 +36,9 @@ const notesActions = {
 	updateNotesError,
 	showEditForm,
 	closeEditForm,
+	deleteNotesRequest,
+	deleteNotesSuccess,
+	deleteNotesError,
+	changeFilter,
 };
 export default notesActions;
