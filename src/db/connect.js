@@ -3,11 +3,12 @@ export const DBConfig = {
 	version: 1,
 	objectStoresMeta: [
 		{
-			store: 'people',
+			store: 'notes',
 			storeConfig: { keyPath: 'id', autoIncrement: true },
 			storeSchema: [
-				{ name: 'name', keypath: 'name', options: { unique: false } },
-				{ name: 'email', keypath: 'email', options: { unique: false } },
+				{ name: 'topic', keypath: 'topic', options: { unique: false } },
+				{ name: 'date', keypath: 'date', options: { unique: false } },
+				{ name: 'edit', keypath: 'edit', options: { unique: false } },
 			],
 		},
 	],
